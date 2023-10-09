@@ -13,6 +13,7 @@ namespace UsersRolesApp.Controllers
     /// <returns></returns>
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserController : Controller
     {
         ApplicationContext db;
@@ -30,6 +31,8 @@ namespace UsersRolesApp.Controllers
         /// </summary>
         /// <param name="filter">Данные о сортировке</param>
         /// <returns></returns>
+        /// <response code="200">Успешное выполнение</response>
+        /// <response code="404">Пользователь не найден</response>
         [HttpPost("GetAllUsers")]
         public async Task<IActionResult> GetAllUsers(UserFilter filter)
         {
@@ -46,12 +49,12 @@ namespace UsersRolesApp.Controllers
                 users = users.Where(p => p.Email!.Contains(filter.Email));
             }
 
-            if(filter.AgeFrom > 0)
+            if(filter.AgeFrom != null)
             {
                 users = users.Where(p => p.Age > filter.AgeFrom);
             }
 
-            if (filter.AgeTo < 100)
+            if (filter.AgeTo != null)
             {
                 users = users.Where(p => p.Age < filter.AgeTo);
             }
@@ -131,7 +134,11 @@ namespace UsersRolesApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                var errors = ModelState.Select(x => x.Value.Errors)
+                           .Where(y => y.Count > 0)
+                           .ToList();
+
+                return BadRequest(errors);
             }
 
             await db.Users.AddAsync(user);
@@ -153,11 +160,16 @@ namespace UsersRolesApp.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> AddUserRoles([FromRoute] int id, List<Role> roles)
         {
+            if (roles.Count() < 1)
+            {
+                return BadRequest("Выберите хотя бы одну роль");
+            }
+
             var user = await db.Users.Include(r => r.Roles).FirstOrDefaultAsync(x => x.Id == id);
 
-            if(user == null && roles.Count() < 1)
+            if(user == null)
             {
-                return BadRequest();
+                return BadRequest("Пользователь не найден");
             }
 
             List<UsersRoles> userRolesNew = new List<UsersRoles>();
@@ -242,10 +254,8 @@ namespace UsersRolesApp.Controllers
         public IActionResult CheckEmail(string email)
         {
             var emailCurrent = db.Users.Any(e => e.Email == email);
-            if (!emailCurrent)
-                return Json(false);
 
-            return Json(true);
+            return Json(emailCurrent);
         }
     }
 }

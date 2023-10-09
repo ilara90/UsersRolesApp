@@ -107,34 +107,4 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapPost("/login/{username}", (User loginData) =>
-{
-    using (ApplicationContext db = new ApplicationContext(context))
-    {
-        User? user = db.Users.FirstOrDefault(u => u.Email == loginData.Email && u.Password == loginData.Password);
-
-        if (user is null)
-            return Results.Unauthorized();
-
-        var claims = new List<Claim> { new Claim(ClaimTypes.Name, user.Email) };
-        var jwt = new JwtSecurityToken(
-                issuer: AuthOptions.ISSUER,
-                audience: AuthOptions.AUDIENCE,
-                claims: claims,
-                expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(2)),
-                signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-        var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-
-        var response = new
-        {
-            access_token = encodedJwt,
-            username = user.Email
-        };
-
-        return Results.Json(response);
-    }    
-});
-
-app.Map("/data", [Authorize] () => new { message = "Hello User!" });
-
 app.Run();

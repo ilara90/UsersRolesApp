@@ -17,7 +17,7 @@ namespace UsersRolesApp.Models
         /// Имя пользователя
         /// </summary>
         [Required(AllowEmptyStrings = false, ErrorMessage = "Имя обязательно")]
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Возраст пользователя
@@ -37,7 +37,7 @@ namespace UsersRolesApp.Models
         /// <summary>
         /// Пароль пользователя
         /// </summary>
-        public string? Password { get; set; }
+        public string Password { get; set; }
 
         /// <summary>
         /// Роль пользователя
