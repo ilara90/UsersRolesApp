@@ -37,6 +37,7 @@ namespace UsersRolesApp.Models
         /// <summary>
         /// Пароль пользователя
         /// </summary>
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Пароль обязателен")]
         public string Password { get; set; }
 
         /// <summary>
