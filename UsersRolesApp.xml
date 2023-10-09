@@ -1,0 +1,349 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UsersRolesApp</name>
+    </assembly>
+    <members>
+        <member name="T:UsersRolesApp.Controllers.UserController">
+            <summary>
+            Операции для управления списком пользователей
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UsersRolesApp.Controllers.UserController.#ctor(UsersRolesApp.Models.ApplicationContext)">
+            <summary>
+            Подключение к базе данных
+            </summary>
+        </member>
+        <member name="M:UsersRolesApp.Controllers.UserController.GetAllUsers(UsersRolesApp.Models.UserFilter)">
+            <summary>
+            Получение списка всех пользователей
+            </summary>
+            <param name="filter">Данные о сортировке</param>
+            <returns></returns>
+        </member>
+        <member name="M:UsersRolesApp.Controllers.UserController.GetUserById(System.Int32)">
+            <summary>
+            Получение пользователя по Id и всех его ролей
+            </summary>
+            <param name="id">Id пользователя</param>
+            <returns></returns>
+            <response code="200">Успешное выполнение</response>
+            <response code="404">Пользователь не найден</response>
+        </member>
+        <member name="M:UsersRolesApp.Controllers.UserController.AddUser(UsersRolesApp.Models.User)">
+            <summary>
+            Создание нового пользователя
+            </summary>
+            <param name="user">Пользователь</param>
+            <returns></returns>
+            <response code="200">Успешное выполнение</response>
+            <response code="400">Ошибка API</response>
+        </member>
+        <member name="M:UsersRolesApp.Controllers.UserController.AddUserRoles(System.Int32,System.Collections.Generic.List{UsersRolesApp.Models.Role})">
+            <summary>
+            Добавление новых ролей пользователю.
+            </summary>
+            <param name="id">Id пользователя</param>
+            <param name="roles">Список ролей, которые нужно добавить пользователю</param>
+            <response code="200">Успешное выполнение</response>
+            <response code="400">Ошибка API</response>
+            <returns></returns>
+        </member>
+        <member name="M:UsersRolesApp.Controllers.UserController.UpdateUser(System.Int32,UsersRolesApp.Models.User)">
+            <summary>
+            Обновление информации о пользователе по Id
+            </summary>
+            <param name="id">Id пользователя</param>
+            <param name="updateUser">Обновленные данные пользователя</param>
+            <response code="200">Успешное выполнение</response>
+            <response code="404">Пользователь не найден</response>
+            <returns></returns>
+        </member>
+        <member name="M:UsersRolesApp.Controllers.UserController.DeleteUser(System.Int32)">
+            <summary>
+            Удаление пользователя по Id 
+            </summary>
+            <param name="id">Id пользователя</param>
+            <returns></returns>
+            <response code="200">Успешное выполнение</response>
+            <response code="404">Пользователь не найден</response>
+        </member>
+        <member name="M:UsersRolesApp.Controllers.UserController.CheckEmail(System.String)">
+            <summary>
+            Проверка уникальности email
+            </summary>
+            <param name="email">Адрес электроной почты, который требуется проверить на уникальность</param>
+            <returns></returns>
+        </member>
+        <member name="T:UsersRolesApp.Migrations.InitialCreate">
+            <inheritdoc />
+        </member>
+        <member name="M:UsersRolesApp.Migrations.InitialCreate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:UsersRolesApp.Migrations.InitialCreate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:UsersRolesApp.Migrations.InitialCreate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:UsersRolesApp.Migrations.Password">
+            <inheritdoc />
+        </member>
+        <member name="M:UsersRolesApp.Migrations.Password.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:UsersRolesApp.Migrations.Password.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:UsersRolesApp.Migrations.Password.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:UsersRolesApp.Models.ApplicationContext">
+            <summary>
+            Класс для взаимодействовать с базой данных 
+            </summary>
+        </member>
+        <member name="P:UsersRolesApp.Models.ApplicationContext.Users">
+            <summary>
+            Связь с таблицей пользователей в базе данных
+            </summary>
+        </member>
+        <member name="P:UsersRolesApp.Models.ApplicationContext.Roles">
+            <summary>
+            Связь с таблицей ролей в базе данных
+            </summary>
+        </member>
+        <member name="P:UsersRolesApp.Models.ApplicationContext.UsersRoles">
+            <summary>
+            Связь с таблицей пользователей и ролей, которые имеют пользователи в базе данных
+            </summary>
+        </member>
+        <member name="T:UsersRolesApp.Models.AuthOptions">
+            <summary>
+            Модель для настроек генерации токена
+            </summary>
+        </member>
+        <member name="F:UsersRolesApp.Models.AuthOptions.ISSUER">
+            <summary>
+            издатель токена
+            </summary>
+        </member>
+        <member name="F:UsersRolesApp.Models.AuthOptions.AUDIENCE">
+            <summary>
+            потребитель токена
+            </summary>
+        </member>
+        <member name="F:UsersRolesApp.Models.AuthOptions.KEY">
+            <summary>
+            ключ для шифрации
+            </summary>
+        </member>
+        <member name="M:UsersRolesApp.Models.AuthOptions.GetSymmetricSecurityKey">
+            <summary>
+            Возвращает ключ безопасности, который применяется для генерации токена
+            </summary>
+        </member>
+        <member name="T:UsersRolesApp.Models.PageResponse">
+            <summary>
+            Модель для пагинации
+            </summary>
+        </member>
+        <member name="P:UsersRolesApp.Models.PageResponse.PageNumber">
+            <summary>
+            Номер страницы
+            </summary>
+        </member>
+        <member name="P:UsersRolesApp.Models.PageResponse.TotalPages">
+            <summary>
+            Количество страниц
+            </summary>
+        </member>
+        <member name="M:UsersRolesApp.Models.PageResponse.#ctor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Конструктор для модели пагинации
+            </summary>
+        </member>
+        <member name="T:UsersRolesApp.Models.Role">
+            <summary>
+            Роль
+            </summary>
+        </member>
+        <member name="P:UsersRolesApp.Models.Role.Id">
+            <summary>
+            Id роли
+            </summary>
+        </member>
+        <member name="P:UsersRolesApp.Models.Role.Name">
+            <summary>
+            Наименование роли
+            </summary>
+        </member>
+        <member name="P:UsersRolesApp.Models.Role.Users">
+            <summary>
+            Пользователи у которых есть роль
+            </summary>
+        </member>
+        <member name="P:UsersRolesApp.Models.Role.UsersRoles">
+            <summary>
+            Таблица ролей и пользователей
+            </summary>
+        </member>
+        <member name="T:UsersRolesApp.Models.SortDirection">
+            <summary>
+            Напрвление сортировки
+            </summary>
+        </member>
+        <member name="F:UsersRolesApp.Models.SortDirection.Asc">
+            <summary>
+            Сортировка по возрастанию
+            </summary>
+        </member>
+        <member name="F:UsersRolesApp.Models.SortDirection.Desc">
+            <summary>
+            Сортировка по убыванию
+            </summary>
+        </member>
+        <member name="T:UsersRolesApp.Models.SortUserField">
+            <summary>
+            Параметры сортировки
+            </summary>
+        </member>
+        <member name="F:UsersRolesApp.Models.SortUserField.NameUser">
+            <summary>
+            Сортировка по имени пользователя
+            </summary>
+        </member>
+        <member name="F:UsersRolesApp.Models.SortUserField.Age">
+            <summary>
+            Сортировка по возрасту пользователя
+            </summary>
+        </member>
+        <member name="F:UsersRolesApp.Models.SortUserField.Email">
+            <summary>
+            Сортировка по email пользователя
+            </summary>
+        </member>
+        <member name="T:UsersRolesApp.Models.User">
+            <summary>
+            Пользователь
+            </summary>
+        </member>
+        <member name="P:UsersRolesApp.Models.User.Id">
+            <summary>
+            Id пользователя
+            </summary>
+        </member>
+        <member name="P:UsersRolesApp.Models.User.Name">
+            <summary>
+            Имя пользователя
+            </summary>
+        </member>
+        <member name="P:UsersRolesApp.Models.User.Age">
+            <summary>
+            Возраст пользователя
+            </summary>
+        </member>
+        <member name="P:UsersRolesApp.Models.User.Email">
+            <summary>
+            Email пользователя
+            </summary>
+        </member>
+        <member name="P:UsersRolesApp.Models.User.Password">
+            <summary>
+            Пароль пользователя
+            </summary>
+        </member>
+        <member name="P:UsersRolesApp.Models.User.Roles">
+            <summary>
+            Роль пользователя
+            </summary>
+        </member>
+        <member name="P:UsersRolesApp.Models.User.UsersRoles">
+            <summary>
+            Таблица ролей и пользователей
+            </summary>
+        </member>
+        <member name="T:UsersRolesApp.Models.UserFilter">
+            <summary>
+            Модель для фильтрации
+            </summary>
+        </member>
+        <member name="P:UsersRolesApp.Models.UserFilter.Paging">
+            <summary>
+            пагинация
+            </summary>
+        </member>
+        <member name="P:UsersRolesApp.Models.UserFilter.NameUser">
+            <summary>
+            введенное имя
+            </summary>
+        </member>
+        <member name="P:UsersRolesApp.Models.UserFilter.Email">
+            <summary>
+            введенный email
+            </summary>
+        </member>
+        <member name="P:UsersRolesApp.Models.UserFilter.AgeFrom">
+            <summary>
+            введенный возраст от
+            </summary>
+        </member>
+        <member name="P:UsersRolesApp.Models.UserFilter.AgeTo">
+            <summary>
+            введенный возраст по
+            </summary>
+        </member>
+        <member name="P:UsersRolesApp.Models.UserFilter.RoleId">
+            <summary>
+            Id выбранной роль
+            </summary>
+        </member>
+        <member name="T:UsersRolesApp.Models.UsersResponse">
+            <summary>
+            Модель для получения всех пользвателей, с учетом фильтрации, сортировки, пагинации
+            </summary>
+        </member>
+        <member name="P:UsersRolesApp.Models.UsersResponse.Users">
+            <summary>
+            Список пользователей
+            </summary>
+        </member>
+        <member name="P:UsersRolesApp.Models.UsersResponse.PageViewModel">
+            <summary>
+            Модель для пагинации
+            </summary>
+        </member>
+        <member name="M:UsersRolesApp.Models.UsersResponse.#ctor(System.Collections.Generic.IEnumerable{UsersRolesApp.Models.User},UsersRolesApp.Models.PageResponse)">
+            <summary>
+            Конструктор для общей модели
+            </summary>
+        </member>
+        <member name="T:UsersRolesApp.Models.UsersRoles">
+            <summary>
+            Модель, которая позволяет соеденить пользователей и роли, которые имеют пользователи в базе данных
+            </summary>
+        </member>
+        <member name="P:UsersRolesApp.Models.UsersRoles.UserId">
+            <summary>
+            Id пользователя
+            </summary>
+        </member>
+        <member name="P:UsersRolesApp.Models.UsersRoles.User">
+            <summary>
+            Пользователь
+            </summary>
+        </member>
+        <member name="P:UsersRolesApp.Models.UsersRoles.RoleId">
+            <summary>
+            Id роли
+            </summary>
+        </member>
+        <member name="P:UsersRolesApp.Models.UsersRoles.Role">
+            <summary>
+            Роль
+            </summary>
+        </member>
+    </members>
+</doc>
